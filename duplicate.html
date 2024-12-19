@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HMS - Departments</title>
+    <title>Doctor Chat Dashboard</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
@@ -159,8 +159,6 @@
             transition: margin-left 0.3s ease;
         }
 
-
-
         @media (min-width: 769px) {
             .sidebar {
                 left: 0;
@@ -201,24 +199,19 @@
             <button id="closeSidebar" class="close-sidebar">&times;</button>
         </div>
         <nav class="sidebar-nav">
-            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i> Dashboard</a>
-            <a href="departments.html" class="nav-item active"><i class="fas fa-user-md"></i> Find a Doctor</a>
+            <a href="#" class="nav-item"><i class="fas fa-home"></i> Dashboard</a>
+            <a href="#" class="nav-item active"><i class="fas fa-user-md"></i> Find a Doctor</a>
             <a href="#" class="nav-item"><i class="fas fa-plane"></i> Medical Tourism</a>
             <a href="#" class="nav-item"><i class="fas fa-pills"></i> Online Pharmacy</a>
             <a href="#" class="nav-item"><i class="fas fa-flask"></i> Lab Services</a>
-            <a href="#" class="nav-item"><i class="fas fa-user"></i> My Profile</a>
-            <a href="index.html" class="nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </nav>
         <div class="quick-actions">
-            <h3>Customer Care</h3>
-            <button class="btn"><i class="fas fa-phone"></i> Call</button>
-            <button class="btn"><i class="fas fa-envelope"></i> Mail-id</button>
-            <button class="btn"><i class="fas fa-comments"></i> Live Chat</button>
+            <h3>Quick Actions</h3>
+            <button class="btn"><i class="fas fa-calendar-plus"></i> Book Appointment</button>
+            <button class="btn"><i class="fas fa-file-medical"></i> View Medical Records</button>
+            <button class="btn"><i class="fas fa-phone"></i> Emergency Contact</button>
         </div>
     </div>
-
-    
-
 
     <div class="main-content">
         <div class="container">
@@ -315,7 +308,7 @@
                 const departmentCard = e.target.closest('.department-card');
                 if (departmentCard) {
                     const department = departmentCard.dataset.department;
-                    window.location.href = `2.0.html?department=${department}`;
+                    window.location.href = `2.html?department=${department}`;
                 }
             });
         });
