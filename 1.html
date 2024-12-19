@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Chat Dashboard</title>
+    <link rel="stylesheet" href=".css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!--<script src = "script.js"></script>-->
+    <style>
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.main-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+}
+
+.departments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.department-card {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.department-card:hover {
+    transform: translateY(-5px);
+}
+
+.department-icon {
+    font-size: 2.5rem;
+    color: #3498db;
+    margin-bottom: 1rem;
+}
+
+.doctors-section {
+    margin-top: 2rem;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: #3498db;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.doctors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.doctor-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.doctor-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.doctor-info {
+    flex: 1;
+}
+
+.doctor-name {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.doctor-specialty {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.chat-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.chat-button:hover {
+    background-color: #2980b9;
+}
+
+.hidden {
+    display: none;
+}
+
+.chat-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    display: none; /* Completely hide the element */
+}
+
+
+
+.chat-content {
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    display: none;
+}
+
+.chat-header {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-chat {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #7f8c8d;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.message {
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    border-radius: 10px;
+    max-width: 70%;
+}
+
+.message.sent {
+    background-color: #3498db;
+    color: white;
+    margin-left: auto;
+}
+
+.message.received {
+    background-color: #f0f2f5;
+}
+
+.chat-input-area {
+    padding: 1rem;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 1rem;
+}
+
+.chat-input-area input {
+    flex: 1;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+.chat-input-area button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .departments-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .doctors-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chat-content {
+        width: 95%;
+        height: 90vh;
+    }
+}
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-title">Select Health Department</h1>
+        
+        <div class="departments-grid" id="departmentsGrid">
+            <div class="department-card" data-department="Cardiology">
+                <i class="fas fa-heart department-icon"></i>
+                <h3>Cardiology</h3>
+            </div>
+            <div class="department-card" data-department="Neurology">
+                <i class="fas fa-brain department-icon"></i>
+                <h3>Neurology</h3>
+            </div>
+            <div class="department-card" data-department="Nephrology">
+                <i class="fas fa-dna department-icon"></i>
+                <h3>Nephrology</h3>
+            </div>
+            <div class="department-card" data-department="Internal Medicine">
+                <i class="fas fa-stethoscope department-icon"></i>
+                <h3>Internal Medicine</h3>
+            </div>
+            <div class="department-card" data-department="General Practice">
+                <i class="fas fa-user-md department-icon"></i>
+                <h3>General Practice</h3>
+            </div>
+            <div class="department-card" data-department="Ophthalmology">
+                <i class="fas fa-eye department-icon"></i>
+                <h3>Ophthalmology</h3>
+            </div>
+        </div>
+      
+        
+<script>
+
+
+
+    // Add click event listener to department cards
+const departmentsGrid = document.getElementById('departmentsGrid');
+
+departmentsGrid.addEventListener('click', (e) => {
+    const departmentCard = e.target.closest('.department-card');
+    if (departmentCard) {
+        const department = departmentCard.dataset.department;
+        // Redirect to doctors.html with the selected department as a URL parameter
+        window.location.href = `2.html?department=${department}`;
+    }
+});
+
+/*
+
+const doctorsData = {
+    Cardiology: [
+        { name: 'Dr. Sarah Johnson', specialty: 'Cardiology', experience: '15 years', education: 'MD, Harvard Medical School',
+        appointmentTimes: '9:00 AM - 12:00 PM, 2:00 PM - 5:00 PM', image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=500' },
+        { name: 'Dr. Robert Smith', specialty: 'Cardiology', experience: '12 years', education: 'MD, Harvard Medical School',
+        appointmentTimes: '9:00 AM - 12:00 PM, 2:00 PM - 5:00 PM',image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500' }
+    ],
+    Neurology: [
+        { name: 'Dr. Michael Chen', specialty: 'Neurology', experience: '20 years', education: 'MD, Harvard Medical School',
+        appointmentTimes: '9:00 AM - 12:00 PM, 2:00 PM - 5:00 PM',image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500' },
+        { name: 'Dr. Emily Brown', specialty: 'Neurology', experience: '10 years', image: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=500' }
+    ],
+    Nephrology: [
+        { name: 'Dr. James Wilson', specialty: 'Nephrology', experience: '18 years', image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500' },
+        { name: 'Dr. Lisa Anderson', specialty: 'Nephrology', experience: '14 years', image: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=500' }
+    ]
+};
+
+// DOM Elements
+const departmentsGrid = document.getElementById('departmentsGrid');
+const doctorsSection = document.getElementById('doctorsSection');
+const doctorsGrid = document.getElementById('doctorsGrid');
+const backButton = document.getElementById('backButton');
+const departmentTitle = document.getElementById('departmentTitle');
+const chatModal = document.getElementById('chatModal');
+const closeChatBtn = document.getElementById('closeChatBtn');
+const chatMessages = document.getElementById('chatMessages');
+const messageInput = document.getElementById('messageInput');
+const sendMessageBtn = document.getElementById('sendMessageBtn');
+const chatDoctorName = document.getElementById('chatDoctorName');
+
+// Event Listeners
+departmentsGrid.addEventListener('click', handleDepartmentClick);
+backButton.addEventListener('click', showDepartments);
+closeChatBtn.addEventListener('click', closeChat);
+sendMessageBtn.addEventListener('click', sendMessage);
+messageInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
+});
+
+// Functions
+function handleDepartmentClick(e) {
+    const departmentCard = e.target.closest('.department-card');
+    if (!departmentCard) return;
+
+    const department = departmentCard.dataset.department;
+    showDoctors(department);
+}
+
+function showDoctors(department) {
+    departmentsGrid.classList.add('hidden');
+    doctorsSection.classList.remove('hidden');
+    departmentTitle.textContent = `${department} Doctors`;
+
+    const doctors = doctorsData[department] || [];
+    doctorsGrid.innerHTML = doctors.map(doctor => `
+        <div class="doctor-card">
+            <img src="${doctor.image}" alt="${doctor.name}" class="doctor-image">
+            <div class="doctor-info">
+                <h3 class="doctor-name">${doctor.name}</h3>
+                <p class="doctor-specialty">${doctor.specialty} • ${doctor.experience}</p>
+            </div>
+            <button class="chat-button" onclick="openChat('${doctor.name}')">
+                Chat
+            </button>
+        </div>
+    `).join('');
+}
+
+function showDepartments() {
+    doctorsSection.classList.add('hidden');
+    departmentsGrid.classList.remove('hidden');
+}
+
+function openChat(doctorName) {
+    chatModal.classList.remove('hidden');
+    chatDoctorName.textContent = `Chat with ${doctorName}`;
+    chatMessages.innerHTML = ''; // Clear previous messages
+}
+
+function closeChat() {
+    chatModal.classList.add('hidden'); // Ensure the hidden class is added
+}
+
+function sendMessage() {
+    const message = messageInput.value.trim();
+    if (!message) return;
+
+    // Add user message
+    addMessage(message, 'sent');
+    messageInput.value = '';
+
+    // Simulate doctor response after 1 second
+    setTimeout(() => {
+        addMessage('Thank you for your message. I will get back to you shortly.', 'received');
+    }, 1000);
+}
+
+function addMessage(text, type) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message', type);
+    messageDiv.textContent = text;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+*/
+</script>
+</body>
+</html>

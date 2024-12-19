@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMS - Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Match dashboard font */
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles - Matched with dashboard */
+        .main-header {
+            background-color: #3498db;
+            color: #fff;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .main-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Main Content Styles */
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 0;
+        }
+
+        .auth-container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 400px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .auth-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .auth-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .input-icon {
+            position: relative;
+        }
+
+        .input-icon i {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            color: #7f8c8d;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px 12px 40px;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        /* Button Styles - Matched with dashboard */
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-1px);
+        }
+
+        .auth-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .auth-links a {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .auth-links a:hover {
+            color: #2980b9;
+        }
+
+        /* Footer Styles - Matched with dashboard */
+        .main-footer {
+            background-color: #34495e;
+            color: #ecf0f1;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .footer-links {
+            margin-top: 10px;
+        }
+
+        .footer-links a {
+            color: #ecf0f1;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #3498db;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .main-header h1 {
+                font-size: 1.75rem;
+            }
+
+            .main-header p {
+                font-size: 1rem;
+            }
+
+            .auth-container {
+                margin: 0 20px;
+                padding: 30px;
+            }
+
+            .footer-links {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .footer-links a {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <header class="main-header">
+            <div class="container">
+                <h1>Hospital Management System</h1>
+                <p>Your Health, Our Priority</p>
+            </div>
+        </header>
+
+        <main>
+            <div class="auth-container">
+                <h2>Login to HMS</h2>
+                <form onsubmit="return handleLogin(event)">
+                    <div class="form-group">
+                        <label for="loginEmail" class="sr-only">Email</label>
+                        <div class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="loginEmail" placeholder="Email" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword" class="sr-only">Password</label>
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="loginPassword" placeholder="Password" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+                <div class="auth-links">
+                    <p>Don't have an account? <a href="signup.html">Sign up</a></p>
+                    <p><a href="#">Forgot password?</a></p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="main-footer">
+            <div class="container">
+                <p>&copy; 2024 Hospital Management System. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact Us</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Add your login logic here
+            console.log('Login attempted with:', email);
+            
+            // Redirect to dashboard on successful login
+            window.location.href = '0_0.html';
+            return false;
+        }
+    </script>
+</body>
+</html>

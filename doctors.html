@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMS - Doctors</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-content">
+            <h1>Hospital Management System</h1>
+            <div class="user-actions">
+                <span id="userName"></span>
+                <button onclick="logout()" class="btn btn-secondary">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="dashboard.html">Dashboard</a> > 
+            <a href="departments.html">Departments</a> > 
+            <span id="selectedDepartment">Doctors</span>
+        </nav>
+
+        <div class="doctors-section">
+            <h2 id="departmentTitle">Department Doctors</h2>
+            <div class="doctors-grid" id="doctorsGrid"></div>
+        </div>
+
+        <!-- Chat Section -->
+        <div class="chat-container hidden" id="chatSection">
+            <div class="chat-header">
+                <button onclick="closeChat()" class="btn btn-secondary">Close</button>
+                <h3 id="chatDoctorName">Chat with Doctor</h3>
+            </div>
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="chat-input">
+                <input type="text" id="messageInput" placeholder="Type your message...">
+                <button onclick="sendMessage()" class="btn btn-primary">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2024 Hospital Management System. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

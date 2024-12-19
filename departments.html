@@ -1,0 +1,990 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HMS - Departments</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+
+
+
+/* Base styles */
+:root {
+  --primary-color: #2563eb;
+  --secondary-color: #1e40af;
+  --text-color: #1f2937;
+  --light-bg: #f3f4f6;
+  --white: #ffffff;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--light-bg);
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Header styles */
+.main-header {
+  background-color: var(--white);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4rem;
+}
+
+.header-content h1 {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.btn-secondary {
+  background-color: var(--primary-color);
+  color: var(--white);
+}
+
+.btn-secondary:hover {
+  background-color: var(--secondary-color);
+}
+
+/* Breadcrumb styles */
+.breadcrumb {
+  padding: 1rem 0;
+  color: #6b7280;
+}
+
+.breadcrumb a {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+/* Departments section */
+.departments-section {
+  padding: 2rem 0;
+}
+
+.departments-section h2 {
+  font-size: 1.875rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+}
+
+.departments-section p {
+  color: #6b7280;
+  margin-bottom: 2rem;
+}
+
+.departments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.department-card {
+  background-color: var(--white);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.department-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Footer styles */
+.main-footer {
+  background-color: var(--white);
+  padding: 2rem 0;
+  margin-top: 4rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.footer-links {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.footer-links a {
+  color: #6b7280;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: var(--primary-color);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    height: auto;
+    padding: 1rem 0;
+    text-align: center;
+  }
+
+  .user-actions {
+    margin-top: 1rem;
+  }
+
+  .departments-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+
+
+}
+
+/* Existing styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* New Sidebar Styles */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    overflow-y: auto;
+    transition: left 0.3s ease;
+    z-index: 1000;
+}
+
+.sidebar-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    background-color: #34495e;
+}
+
+.logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.sidebar-nav {
+    padding: 20px 0;
+}
+
+.nav-item {
+    display: block;
+    padding: 10px 20px;
+    color: #ecf0f1;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.nav-item:hover, .nav-item.active {
+    background-color: #34495e;
+}
+
+.nav-item i {
+    margin-right: 10px;
+}
+
+/* Main Content Styles */
+.main-content {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+}
+
+/* Existing Header Styles */
+.main-header {
+    background-color: #3498db;
+    color: #fff;
+    padding: 20px 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sidebar-toggle {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    display: none;
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+}
+
+.user-actions span {
+    margin-right: 10px;
+}
+
+/* Department Grid Styles */
+.departments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.department-card {
+    background-color: #ffffff;
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+}
+
+.department-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.1);
+}
+
+.department-card i {
+    font-size: 3rem;
+    color: #3498db;
+    margin-bottom: 1rem;
+}
+
+.department-card h3 {
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin: 0;
+}
+
+
+/* Existing styles for welcome section, services grid, quick actions, buttons, and footer remain unchanged */
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .sidebar {
+        left: -250px;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+
+    .main-content.sidebar-active {
+        margin-left: 250px;
+    }
+
+    .sidebar-toggle {
+        display: block;
+    }
+
+    .main-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .footer-links {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .footer-links a {
+        margin: 5px 0;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <header class="main-header">
+        <div class="container header-content">
+            <h1>Hospital Management System</h1>
+            <div class="user-actions">
+                <span id="userName"></span>
+                <button onclick="logout()" class="btn btn-secondary">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="dashboard.html">Dashboard</a> > Departments
+        </nav>
+
+        <div class="departments-section">
+            <h2>Medical Departments</h2>
+            <p>Select a department based on your health needs</p>
+            <div class="departments-grid" id="departmentsGrid"></div>
+        </div>
+    </div>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2024 Hospital Management System. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact Us</a>
+            </div>
+        </div>
+    </footer>
+    <script src="script.js">
+
+const departments = [
+    {
+        name: 'Cardiology',
+        description: 'Heart and cardiovascular system specialists',
+        doctors: 12
+    },
+    {
+        name: 'Neurology',
+        description: 'Brain, spine, and nervous system care',
+        doctors: 8
+    },
+    {
+        name: 'Pediatrics',
+        description: 'Comprehensive children',
+        doctors: 15
+    },
+    {
+        name: 'Orthopedics',
+        description: 'Bone and joint specialists',
+        doctors: 10
+    },
+    {
+        name: 'Oncology',
+        description: 'Cancer treatment and care',
+        doctors: 9
+    },
+    {
+        name: 'Emergency',
+        description: '24/7 emergency medical services',
+        doctors: 20
+    }
+];
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', () => {
+    displayUserName();
+    renderDepartments();
+    addAnimations();
+});
+
+// Display user name (mock data)
+function displayUserName() {
+    const userNameElement = document.getElementById('userName');
+    userNameElement.textContent = 'Dr. John Doe';
+}
+
+// Render departments grid
+function renderDepartments() {
+    const departmentsGrid = document.getElementById('departmentsGrid');
+    
+    departments.forEach(dept => {
+        const card = document.createElement('div');
+        card.className = 'department-card';
+        card.innerHTML = `
+            <h3 class="text-xl font-semibold mb-2">${dept.name}</h3>
+            <p class="text-gray-600 mb-4">${dept.description}</p>
+            <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-500">${dept.doctors} Doctors</span>
+                <button class="btn btn-secondary">View Details</button>
+            </div>
+        `;
+        departmentsGrid.appendChild(card);
+    });
+}
+
+// Add smooth animations
+function addAnimations() {
+    const cards = document.querySelectorAll('.department-card');
+    
+    // Add fade-in animation on scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'all 0.5s ease-out';
+        observer.observe(card);
+    });
+}
+
+// Logout function
+function logout() {
+    // Add logout logic here
+    alert('Logging out...');
+    window.location.href = 'login.html';
+}
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.querySelector('.main-content');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+
+    sidebarToggle.addEventListener('click', function() {
+        sidebar.classList.toggle('active');
+        mainContent.classList.toggle('sidebar-active');
+    });
+
+    // Close sidebar when clicking outside of it on mobile
+    document.addEventListener('click', function(event) {
+        const windowWidth = window.innerWidth;
+        if (windowWidth <= 768 && !sidebar.contains(event.target) && !sidebarToggle.contains(event.target)) {
+            sidebar.classList.remove('active');
+            mainContent.classList.remove('sidebar-active');
+        }
+    });
+
+    // Placeholder for user name (replace with actual user data)
+    document.getElementById('userName').textContent = 'John Doe';
+
+    // Add this line to ensure departments array is available.  Replace with your actual data fetching mechanism.
+    const departments = [
+        {name: 'Cardiology'},
+        {name: 'Neurology'},
+        {name: 'Pediatrics'},
+        {name: 'Orthopedics'},
+        {name: 'Oncology'},
+        {name: 'Emergency'}
+    ];
+
+    function renderDepartments() {
+        const departmentsGrid = document.getElementById('departmentsGrid');
+        
+        const icons = {
+            'Cardiology': 'fa-heart',
+            'Neurology': 'fa-brain',
+            'Pediatrics': 'fa-child',
+            'Orthopedics': 'fa-bone',
+            'Oncology': 'fa-ribbon',
+            'Emergency': 'fa-hospital'
+        };
+        
+        departments.forEach(dept => {
+            const card = document.createElement('div');
+            card.className = 'department-card';
+            card.innerHTML = `
+                <i class="fas ${icons[dept.name] || 'fa-stethoscope'}"></i>
+                <h3>${dept.name}</h3>
+            `;
+            departmentsGrid.appendChild(card);
+        });
+    }
+
+    renderDepartments();
+});
+
+function logout() {
+    // Implement logout functionality here
+    alert('Logout functionality to be implemented');
+}
+
+
+    </script>
+</body>
+</html>--->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Chat Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!--<script src = "script.js"></script>-->
+    <style>
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f0f2f5;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.main-title {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+}
+
+.departments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.department-card {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.department-card:hover {
+    transform: translateY(-5px);
+}
+
+.department-icon {
+    font-size: 2.5rem;
+    color: #3498db;
+    margin-bottom: 1rem;
+}
+
+.doctors-section {
+    margin-top: 2rem;
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: #3498db;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+.doctors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.doctor-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.doctor-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.doctor-info {
+    flex: 1;
+}
+
+.doctor-name {
+    font-size: 1.2rem;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.doctor-specialty {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.chat-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.chat-button:hover {
+    background-color: #2980b9;
+}
+
+.hidden {
+    display: none;
+}
+
+.chat-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    display: none; /* Completely hide the element */
+}
+
+
+
+.chat-content {
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    display: none;
+}
+
+.chat-header {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-chat {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #7f8c8d;
+}
+
+.chat-messages {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.message {
+    margin-bottom: 1rem;
+    padding: 0.8rem;
+    border-radius: 10px;
+    max-width: 70%;
+}
+
+.message.sent {
+    background-color: #3498db;
+    color: white;
+    margin-left: auto;
+}
+
+.message.received {
+    background-color: #f0f2f5;
+}
+
+.chat-input-area {
+    padding: 1rem;
+    border-top: 1px solid #eee;
+    display: flex;
+    gap: 1rem;
+}
+
+.chat-input-area input {
+    flex: 1;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    outline: none;
+}
+
+.chat-input-area button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .departments-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .doctors-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .chat-content {
+        width: 95%;
+        height: 90vh;
+    }
+}
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-title">Select Department</h1>
+        
+        <div class="departments-grid" id="departmentsGrid">
+            <div class="department-card" data-department="Cardiology">
+                <i class="fas fa-heart department-icon"></i>
+                <h3>Cardiology</h3>
+            </div>
+            <div class="department-card" data-department="Neurology">
+                <i class="fas fa-brain department-icon"></i>
+                <h3>Neurology</h3>
+            </div>
+            <div class="department-card" data-department="Nephrology">
+                <i class="fas fa-kidneys department-icon"></i>
+                <h3>Nephrology</h3>
+            </div>
+            <div class="department-card" data-department="Internal Medicine">
+                <i class="fas fa-stethoscope department-icon"></i>
+                <h3>Internal Medicine</h3>
+            </div>
+            <div class="department-card" data-department="General Practice">
+                <i class="fas fa-user-md department-icon"></i>
+                <h3>General Practice</h3>
+            </div>
+            <div class="department-card" data-department="Ophthalmology">
+                <i class="fas fa-eye department-icon"></i>
+                <h3>Ophthalmology</h3>
+            </div>
+        </div>
+
+        <div class="doctors-section hidden" id="doctorsSection">
+            <button class="back-button" id="backButton">← Back to Departments</button>
+            <h2 class="section-title" id="departmentTitle">Doctors</h2>
+            <div class="doctors-grid" id="doctorsGrid"></div>
+        </div>
+
+        <div class="chat-modal hidden" id="chatModal">
+            <div class="chat-content">
+                <div class="chat-header">
+                    <h3 id="chatDoctorName">Chat with Dr. Name</h3>
+                    <button class="close-chat" id="closeChatBtn">&times;</button>
+                </div>
+                <div class="chat-messages" id="chatMessages"></div>
+                <div class="chat-input-area">
+                    <input type="text" id="messageInput" placeholder="Type your message...">
+                    <button id="sendMessageBtn">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+
+
+
+const doctorsData = {
+    Cardiology: [
+        { name: 'Dr. Sarah Johnson', specialty: 'Cardiology', experience: '15 years', image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=500' },
+        { name: 'Dr. Robert Smith', specialty: 'Cardiology', experience: '12 years', image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500' }
+    ],
+    Neurology: [
+        { name: 'Dr. Michael Chen', specialty: 'Neurology', experience: '20 years', image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500' },
+        { name: 'Dr. Emily Brown', specialty: 'Neurology', experience: '10 years', image: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=500' }
+    ],
+    Nephrology: [
+        { name: 'Dr. James Wilson', specialty: 'Nephrology', experience: '18 years', image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500' },
+        { name: 'Dr. Lisa Anderson', specialty: 'Nephrology', experience: '14 years', image: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?w=500' }
+    ]
+};
+
+// DOM Elements
+const departmentsGrid = document.getElementById('departmentsGrid');
+const doctorsSection = document.getElementById('doctorsSection');
+const doctorsGrid = document.getElementById('doctorsGrid');
+const backButton = document.getElementById('backButton');
+const departmentTitle = document.getElementById('departmentTitle');
+const chatModal = document.getElementById('chatModal');
+const closeChatBtn = document.getElementById('closeChatBtn');
+const chatMessages = document.getElementById('chatMessages');
+const messageInput = document.getElementById('messageInput');
+const sendMessageBtn = document.getElementById('sendMessageBtn');
+const chatDoctorName = document.getElementById('chatDoctorName');
+
+// Event Listeners
+departmentsGrid.addEventListener('click', handleDepartmentClick);
+backButton.addEventListener('click', showDepartments);
+closeChatBtn.addEventListener('click', closeChat);
+sendMessageBtn.addEventListener('click', sendMessage);
+messageInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
+});
+
+// Functions
+function handleDepartmentClick(e) {
+    const departmentCard = e.target.closest('.department-card');
+    if (!departmentCard) return;
+
+    const department = departmentCard.dataset.department;
+    showDoctors(department);
+}
+
+function showDoctors(department) {
+    departmentsGrid.classList.add('hidden');
+    doctorsSection.classList.remove('hidden');
+    departmentTitle.textContent = `${department} Doctors`;
+
+    const doctors = doctorsData[department] || [];
+    doctorsGrid.innerHTML = doctors.map(doctor => `
+        <div class="doctor-card">
+            <img src="${doctor.image}" alt="${doctor.name}" class="doctor-image">
+            <div class="doctor-info">
+                <h3 class="doctor-name">${doctor.name}</h3>
+                <p class="doctor-specialty">${doctor.specialty} • ${doctor.experience}</p>
+            </div>
+            <button class="chat-button" onclick="openChat('${doctor.name}')">
+                Chat
+            </button>
+        </div>
+    `).join('');
+}
+
+function showDepartments() {
+    doctorsSection.classList.add('hidden');
+    departmentsGrid.classList.remove('hidden');
+}
+
+function openChat(doctorName) {
+    chatModal.classList.remove('hidden');
+    chatDoctorName.textContent = `Chat with ${doctorName}`;
+    chatMessages.innerHTML = ''; // Clear previous messages
+}
+
+function closeChat() {
+    chatModal.classList.add('hidden'); // Ensure the hidden class is added
+}
+
+function sendMessage() {
+    const message = messageInput.value.trim();
+    if (!message) return;
+
+    // Add user message
+    addMessage(message, 'sent');
+    messageInput.value = '';
+
+    // Simulate doctor response after 1 second
+    setTimeout(() => {
+        addMessage('Thank you for your message. I will get back to you shortly.', 'received');
+    }, 1000);
+}
+
+function addMessage(text, type) {
+    const messageDiv = document.createElement('div');
+    messageDiv.classList.add('message', type);
+    messageDiv.textContent = text;
+    chatMessages.appendChild(messageDiv);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+</script>
+</body>
+</html>
+
