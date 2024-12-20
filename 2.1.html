@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Department - Doctors</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            color: #333;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100%;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background-color: #34495e;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: #ecf0f1;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: #34495e;
+        }
+
+        .nav-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .quick-actions {
+            padding: 20px;
+        }
+
+        .quick-actions h3 {
+            margin-bottom: 15px;
+            color: #ecf0f1;
+            font-size: 1.1em;
+        }
+
+        .quick-actions .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            min-height: 44px;
+        }
+
+        .quick-actions .btn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #3498db;
+            color: white;
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 280px;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 999;
+            transition: left 0.3s ease;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logout-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            min-height: 44px;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            margin-left: 280px;
+            padding-top: 80px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Doctors Grid Styles */
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 1rem;
+        }
+
+        .doctor-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .doctor-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        .doctor-info {
+            padding: 1.5rem;
+            flex: 1;
+        }
+
+        .doctor-name {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .doctor-specialty {
+            font-size: 1rem;
+            color: #3498db;
+            margin-bottom: 0.5rem;
+        }
+
+        .doctor-education, .doctor-appointment {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-bottom: 0.5rem;
+        }
+
+        .doctor-actions {
+            padding: 1rem 1.5rem;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .chat-button {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            background-color: #3498db;
+            color: white;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .chat-button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Mobile Styles */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 12px;
+            left: 15px;
+            z-index: 1001;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            min-height: 44px;
+            min-width: 44px;
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        /* Chat Modal Styles */
+        .chat-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1002;
+        }
+
+        .chat-modal.active {
+            display: flex;
+        }
+
+        .chat-content {
+            background: white;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            height: 80vh;
+        }
+
+        .chat-header {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #7f8c8d;
+            min-height: 44px;
+            min-width: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            border-radius: 10px;
+            max-width: 70%;
+        }
+
+        .message.sent {
+            background-color: #3498db;
+            color: white;
+            margin-left: auto;
+        }
+
+        .message.received {
+            background-color: #f0f2f5;
+        }
+
+        .chat-input-area {
+            padding: 1rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-input-area input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .chat-input-area button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            min-height: 44px;
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .header {
+                left: 0;
+                padding-left: 70px;
+            }
+
+            .header-title {
+                font-size: 1.2rem;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding-top: 70px;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .doctors-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 0.5rem;
+            }
+
+            .doctor-card {
+                max-width: 100%;
+                margin: 0 auto;
+            }
+
+            .doctor-image {
+                height: 200px;
+            }
+
+            .doctor-info {
+                padding: 1rem;
+            }
+
+            .doctor-name {
+                font-size: 1.2rem;
+            }
+
+            .doctor-specialty,
+            .doctor-education,
+            .doctor-appointment {
+                font-size: 0.9rem;
+            }
+
+            .doctor-actions {
+                padding: 1rem;
+            }
+
+            .chat-content {
+                width: 95%;
+                height: 90vh;
+            }
+
+            .chat-header {
+                padding: 0.75rem;
+            }
+
+            .chat-messages {
+                padding: 0.75rem;
+            }
+
+            .chat-input-area {
+                padding: 0.75rem;
+            }
+
+            .chat-input-area input {
+                padding: 0.6rem;
+            }
+
+            .chat-input-area button {
+                padding: 0.6rem 1rem;
+            }
+
+            /* Prevent body scroll when sidebar is open */
+            body.sidebar-open {
+                overflow: hidden;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0.5rem;
+            }
+
+            .doctor-image {
+                height: 180px;
+            }
+
+            .doctor-name {
+                font-size: 1.1rem;
+            }
+
+            .doctor-specialty,
+            .doctor-education,
+            .doctor-appointment {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle Menu">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>HMS</h2>
+            <button class="close-sidebar" id="closeSidebar" aria-label="Close Menu">&times;</button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="0__0.html" class="nav-item">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+            <a href="1.0.html" class="nav-item active">
+                <i class="fas fa-user-md"></i> Find a Doctor
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-plane"></i> Medical Tourism
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-pills"></i> Online Pharmacy
+            </a>
+            <a href="#" class="nav-item">
+                <i class="fas fa-flask"></i> Lab Services
+            </a>
+            <a href="#" class="nav-item"><i class="fas fa-user"></i> My Profile</a>
+            <a href="index.html" class="nav-item"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </nav>
+        <div class="quick-actions">
+            <h3>Customer Care</h3>
+            <button class="btn">
+                <i class="fas fa-calendar-plus"></i> Call
+            </button>
+            <button class="btn">
+                <i class="fas fa-file-medical"></i> Mail-id
+            </button>
+            <button class="btn">
+                <i class="fas fa-phone"></i> Live Chat
+            </button>
+        </div>
+    </div>
+
+    <header class="header">
+        <h1 class="header-title">Health Care</h1>
+        <div class="user-actions">
+            <span>John Doe</span>
+            <button class="logout-btn">Logout</button>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="container">
+            <button class="back-button" id="backButton">← Back to Departments</button>
+            <h1 class="main-title" id="departmentTitle">Doctors</h1>
+            
+            <div class="doctors-grid" id="doctorsGrid"></div>
+        </div>
+    </div>
+
+    <div class="chat-modal" id="chatModal">
+        <div class="chat-content">
+            <div class="chat-header">
+                <h3 id="chatDoctorName">Chat with Dr. Name</h3>
+                <button class="close-chat" id="closeChatBtn" aria-label="Close Chat">&times;</button>
+            </div>
+            <div class="chat-messages" id="chatMessages"></div>
+            <div class="chat-input-area">
+                <input type="text" id="messageInput" placeholder="Type your message..." aria-label="Type your message">
+                <button id="sendMessageBtn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const doctorsData = {
+            Cardiology: [
+                {
+                    name: 'Dr. Sarah Johnson',
+                    specialty: 'Cardiology',
+                    experience: '15 years',
+                    education: 'MD, Harvard Medical School',
+                    appointmentTimes: 'Mon-Fri, 9:00 AM - 12:00 PM, 2:00 PM - 5:00 PM',
+                    image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=500'
+                },
+                {
+                    name: 'Dr. Robert Smith',
+                    specialty: 'Cardiology',
+                    experience: '12 years',
+                    education: 'MD, Johns Hopkins University',
+                    appointmentTimes: 'Mon-Thu, 10:00 AM - 1:00 PM, 3:00 PM - 6:00 PM',
+                    image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500'
+                }
+            ],
+            Neurology: [
+                {
+                    name: 'Dr. Sarah Johnson',
+                    specialty: 'Cardiology',
+                    experience: '15 years',
+                    education: 'MD, Harvard Medical School',
+                    appointmentTimes: 'Mon-Fri, 9:00 AM - 12:00 PM, 2:00 PM - 5:00 PM',
+                    image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=500'
+                },
+                {
+                    name: 'Dr. Robert Smith',
+                    specialty: 'Cardiology',
+                    experience: '12 years',
+                    education: 'MD, Johns Hopkins University',
+                    appointmentTimes: 'Mon-Thu, 10:00 AM - 1:00 PM, 3:00 PM - 6:00 PM',
+                    image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500'
+                }
+            ],
+            Nephrology: [
+                {
+                    name: 'Dr. Sarah Johnson',
+                    specialty: 'Cardiology',
+                    experience: '15 years',
+                    education: 'MD, Harvard Medical School',
+                    appointmentTimes: 'Mon-Fri, 9:00 AM - 12:00 PM, 2:00 PM - 5:00 PM',
+                    image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=500'
+                },
+                {
+                    name: 'Dr. Robert Smith',
+                    specialty: 'Cardiology',
+                    experience: '12 years',
+                    education: 'MD, Johns Hopkins University',
+                    appointmentTimes: 'Mon-Thu, 10:00 AM - 1:00 PM, 3:00 PM - 6:00 PM',
+                    image: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=500'
+                }
+            ],
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const closeSidebar = document.getElementById('closeSidebar');
+            const mainContent = document.querySelector('.main-content');
+            const header = document.querySelector('.header');
+            const doctorsGrid = document.getElementById('doctorsGrid');
+            const backButton = document.getElementById('backButton');
+            const departmentTitle = document.getElementById('departmentTitle');
+            const chatModal = document.getElementById('chatModal');
+            const closeChatBtn = document.getElementById('closeChatBtn');
+            const chatMessages = document.getElementById('chatMessages');
+            const messageInput = document.getElementById('messageInput');
+            const sendMessageBtn = document.getElementById('sendMessageBtn');
+            const chatDoctorName = document.getElementById('chatDoctorName');
+
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                document.body.classList.toggle('sidebar-open');
+            }
+
+            function closeSidebarOnOutsideClick(event) {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickOnToggle = sidebarToggle.contains(event.target);
+                if (!isClickInsideSidebar && !isClickOnToggle && window.innerWidth <= 768 && sidebar.classList.contains('active')) {
+                    toggleSidebar();
+                }
+            }
+
+            function handleWindowResize() {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('active');
+                    document.body.classList.remove('sidebar-open');
+                }
+            }
+
+            function showDoctors() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const department = urlParams.get('department') || 'Cardiology';
+                
+                departmentTitle.textContent = `${department} Doctors`;
+                const doctors = doctorsData[department] || [];
+                
+                doctorsGrid.innerHTML = doctors.map(doctor => `
+                    <div class="doctor-card">
+                        <img src="${doctor.image}" alt="${doctor.name} - ${doctor.specialty}" class="doctor-image">
+                        <div class="doctor-info">
+                            <h3 class="doctor-name">${doctor.name}</h3>
+                            <p class="doctor-specialty">${doctor.specialty} • ${doctor.experience}</p>
+                            <p class="doctor-education"><i class="fas fa-graduation-cap"></i> ${doctor.education}</p>
+                            <p class="doctor-appointment"><i class="far fa-clock"></i> ${doctor.appointmentTimes}</p>
+                        </div>
+                        <div class="doctor-actions">
+                            <button class="chat-button" onclick="openChat('${doctor.name}')">
+                                <i class="fas fa-comments"></i> Chat
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Event Listeners
+            sidebarToggle.addEventListener('click', toggleSidebar);
+            closeSidebar.addEventListener('click', toggleSidebar);
+            document.addEventListener('click', closeSidebarOnOutsideClick);
+            window.addEventListener('resize', handleWindowResize);
+            backButton.addEventListener('click', () => window.location.href = '1.0.html');
+            closeChatBtn.addEventListener('click', closeChat);
+            sendMessageBtn.addEventListener('click', sendMessage);
+            messageInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+
+            // Initialize
+            showDoctors();
+        });
+
+        // Chat Functions
+        function openChat(doctorName) {
+            const chatModal = document.getElementById('chatModal');
+            const chatDoctorName = document.getElementById('chatDoctorName');
+            const chatMessages = document.getElementById('chatMessages');
+            
+            chatModal.classList.add('active');
+            chatDoctorName.textContent = `Chat with ${doctorName}`;
+            chatMessages.innerHTML = '';
+        }
+
+        function closeChat() {
+            const chatModal = document.getElementById('chatModal');
+            chatModal.classList.remove('active');
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const chatMessages = document.getElementById('chatMessages');
+            const message = messageInput.value.trim();
+            
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, 'sent');
+            messageInput.value = '';
+
+            // Simulate doctor response
+            setTimeout(() => {
+                addMessage('Thank you for your message. How can I assist you today?', 'received');
+            }, 1000);
+        }
+
+        function addMessage(text, type) {
+            const chatMessages = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', type);
+            messageDiv.textContent = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
+    <script src="mobile-enhancements.js"></script>
+</body>
+</html>
+
